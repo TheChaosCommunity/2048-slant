@@ -7,11 +7,11 @@ function Grid(size, previousState) {
 Grid.prototype.empty = function () {
   var cells = [];
 
-  for (var x = 0; x < this.size; x++) {
-    var row = cells[x] = [];
+  for (var y = 0; y < this.size; y++) {
+    var row = cells[y] = [];
 
-    for (var y = 0; y < this.size; y++) {
-      row.push(null);
+    for (var x = 0; x < this.size; x++) {
+      row.push(null); // push null into each row
     }
   }
 
@@ -109,6 +109,23 @@ Grid.prototype.serialize = function () {
       row.push(this.cells[x][y] ? this.cells[x][y].serialize() : null);
     }
   }
+
+// Get the current slant of the grid
+Grid.prototype.getSlant = function () {
+  var slant = 0;
+  var size = this.size;
+
+  for (var x = 0; x < size; x++) {
+    for (var y = 0; y < size; y++) {
+      var tile = this.cells[x][y];
+      if (tile) {
+        slant += tile.value * (x - y);
+      }
+    }
+  }
+
+  return slant;
+};
 
   return {
     size: this.size,
